@@ -1,0 +1,150 @@
+﻿<Window x:Class="Tap2PaySystem.Views.ManagerDashboardView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tap2Pay - Manager Dashboard"
+        Height="650"
+        Width="1100"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F4F6F9">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="#1F2937">
+
+            <StackPanel>
+
+                <TextBlock Text="Tap2Pay"
+                           Foreground="White"
+                           FontSize="28"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,25,0,5"/>
+
+                <TextBlock Text="Manager Panel"
+                           Foreground="White"
+                           FontSize="14"
+                           HorizontalAlignment="Center"
+                           Margin="0,0,0,25"/>
+
+                <Button Content="🏠 Dashboard"
+                        Height="45"
+                        Margin="10"/>
+
+                <Button Content="🛒 POS"
+                        Height="45"
+                        Margin="10"
+                        Click="btnPOS_Click"/>
+
+                <Button Content="👤 Registration"
+                        Height="45"
+                        Margin="10"
+                        Click="btnRegistration_Click"/>
+
+                <Button Content="👥 User Management"
+                        Height="45"
+                        Margin="10"
+                        Click="btnUsers_Click"/>
+
+                <Button Content="📦 Inventory"
+                        Height="45"
+                        Margin="10"
+                        Click="btnInventory_Click"/>
+
+                <Button Content="💳 Top Up"
+                        Height="45"
+                        Margin="10"
+                        Click="btnTopUp_Click"/>
+
+                <Button Content="📄 Transaction History"
+                        Height="45"
+                        Margin="10"
+                        Click="btnTransactionHistory_Click"/>
+
+                <Button Content="📊 Reports"
+                        Height="45"
+                        Margin="10"
+                        Click="btnReports_Click"/>
+
+                <Button Content="🚪 Logout"
+                        Height="45"
+                        Margin="10,60,10,10"
+                        Click="btnLogout_Click"/>
+
+            </StackPanel>
+
+        </Border>
+
+        <!-- Main Content -->
+        <Grid Grid.Column="1">
+
+            <StackPanel Margin="30">
+
+                <TextBlock Text="WELCOME MANAGER"
+                           FontSize="30"
+                           FontWeight="Bold"/>
+
+                <TextBlock Text="Tap2Pay Cafeteria Management System"
+                           FontSize="16"
+                           Foreground="Gray"
+                           Margin="0,5,0,25"/>
+
+                <UniformGrid Columns="2">
+
+                    <Button Content="POS"
+                            Height="120"
+                            Margin="10"
+                            FontSize="20"
+                            Click="btnPOS_Click"/>
+
+                    <Button Content="Registration"
+                            Height="120"
+                            Margin="10"
+                            FontSize="20"
+                            Click="btnRegistration_Click"/>
+
+                    <Button Content="User Management"
+                            Height="120"
+                            Margin="10"
+                            FontSize="20"
+                            Click="btnUsers_Click"/>
+
+                    <Button x:Name="btnInventory"
+                            Content="Inventory"
+                            Height="120"
+                            Margin="10"
+                            Click="btnInventory_Click"/> 
+                    
+                    <Button Content="Top Up"
+                            Height="120"
+                            Margin="10"
+                            FontSize="20"
+                            Click="btnTopUp_Click"/>
+
+                    <Button Content="Transaction History"
+                            Height="120"
+                            Margin="10"
+                            FontSize="20"
+                            Click="btnTransactionHistory_Click"/>
+
+                    <Button Content="Reports"
+                            Height="120"
+                            Margin="10"
+                            FontSize="20"
+                            Click="btnReports_Click"/>
+
+                </UniformGrid>
+
+            </StackPanel>
+
+        </Grid>
+
+    </Grid>
+
+</Window>

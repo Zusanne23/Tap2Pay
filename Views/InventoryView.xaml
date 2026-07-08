@@ -1,0 +1,180 @@
+﻿<Window x:Class="Tap2PaySystem.Views.InventoryView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Inventory"
+        Height="650"
+        Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="15">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Search -->
+        <StackPanel Orientation="Horizontal">
+
+            <TextBox x:Name="txtSearch"
+                     Width="250"
+                     Height="30"
+                     Margin="0,0,10,0"/>
+
+            <Button x:Name="btnSearch"
+                    Content="Search"
+                    Width="100"
+                    Height="30"/>
+
+        </StackPanel>
+
+        <!-- Item Information -->
+        <Border Grid.Row="1"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                CornerRadius="5"
+                Padding="15"
+                Margin="0,15,0,15">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="60"/>
+                </Grid.RowDefinitions>
+
+                <!-- Item Name -->
+                <TextBlock Text="Item Name"
+                           VerticalAlignment="Center"/>
+
+                <TextBox x:Name="txtItemName"
+                         Grid.Column="1"
+                         Margin="5"/>
+
+                <!-- Price -->
+                <TextBlock Text="Price"
+                           Grid.Column="2"
+                           VerticalAlignment="Center"/>
+
+                <TextBox x:Name="txtPrice"
+                         Grid.Column="3"
+                         Margin="5"/>
+
+                <!-- Stock -->
+                <TextBlock Text="Stock"
+                           Grid.Row="1"
+                           VerticalAlignment="Center"/>
+
+                <TextBox x:Name="txtStock"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         Margin="5"/>
+
+                <!-- Expiration -->
+                <TextBlock Text="Exp. Date"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           VerticalAlignment="Center"/>
+
+                <DatePicker x:Name="dpExpiration"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Margin="5"/>
+
+                <!-- Status -->
+                <TextBlock Text="Status"
+                           Grid.Row="2"
+                           VerticalAlignment="Center"/>
+
+                <ComboBox x:Name="cbStatus"
+                          Grid.Row="2"
+                          Grid.Column="1"
+                          Margin="5">
+                    <ComboBoxItem Content="Available"/>
+                    <ComboBoxItem Content="Out of Stock"/>
+                    <ComboBoxItem Content="Expired"/>
+                </ComboBox>
+
+                <!-- Buttons -->
+                <StackPanel Grid.Row="3"
+                            Grid.ColumnSpan="4"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+
+                    <Button x:Name="btnAdd"
+                            Content="Add New Item"
+                            Width="130"
+                            Height="35"
+                            Margin="5"
+                            Click="btnAdd_Click"/>
+
+                    <Button x:Name="btnEdit"
+                            Content="Edit"
+                            Width="100"
+                            Height="35"
+                            Margin="5"
+                            Click="btnEdit_Click"/>
+
+                    <Button x:Name="btnDelete"
+                            Content="Delete"
+                            Width="100"
+                            Height="35"
+                            Margin="5"
+                            Click="btnDelete_Click"/>
+
+                    <Button x:Name="btnBack"
+                        Content="Back"
+                        Width="100"
+                        Height="35"
+                        HorizontalAlignment="Right"
+                        Click="btnBack_Click"/>         
+
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+        <!-- DataGrid -->
+        <DataGrid x:Name="dgInventory"
+          Grid.Row="2"
+          AutoGenerateColumns="False"
+          SelectionChanged="dgInventory_SelectionChanged">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding InventoryId}"/>
+
+                <DataGridTextColumn Header="Item Name"
+                                    Binding="{Binding ItemName}"/>
+
+                <DataGridTextColumn Header="Price"
+                                    Binding="{Binding Price}"/>
+
+                <DataGridTextColumn Header="Stock"
+                                    Binding="{Binding Stock}"/>
+
+                <DataGridTextColumn Header="Expiration Date"
+                                    Binding="{Binding ExpirationDate}"/>
+
+                <DataGridTextColumn Header="Status"
+                                    Binding="{Binding Status}"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+
+</Window>
