@@ -11,42 +11,39 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Linq;
 using Tap2PaySystem.Services;
 
 namespace Tap2PaySystem.Views
 {
-    public partial class TransactionHistoryView : Window
+    public partial class TopUpHistoryView : Window
     {
-        private readonly TransactionHistoryService service =
-            new TransactionHistoryService();
+        private readonly TopUpHistoryService service =
+            new TopUpHistoryService();
 
-        public TransactionHistoryView()
+        public TopUpHistoryView()
         {
             InitializeComponent();
 
-            LoadTransactions();
+            LoadTopUpHistory();
         }
 
-        private void LoadTransactions()
+        private void LoadTopUpHistory()
         {
-            dgTransactions.ItemsSource = service.GetTransactions();
+            dgTopUpHistory.ItemsSource = service.GetTopUpHistory();
         }
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!IsLoaded)
-                return;
+            string keyword = txtSearch.Text.ToLower();
 
-            string keyword = txtSearch.Text?.ToLower() ?? "";
-
-            var list = service.GetTransactions();
-
-            dgTransactions.ItemsSource = list.Where(x =>
-                (x.FullName ?? "").ToLower().Contains(keyword) ||
-                (x.RFIDUID ?? "").ToLower().Contains(keyword) ||
-                x.TransactionId.ToString().Contains(keyword))
-            .ToList();
+            dgTopUpHistory.ItemsSource = service
+                .GetTopUpHistory()
+                .Where(x =>
+                    (x.FullName ?? "").ToLower().Contains(keyword) ||
+                    (x.RFIDUID ?? "").ToLower().Contains(keyword) ||
+                    x.TopUpId.ToString().Contains(keyword) ||
+                    x.UserId.ToString().Contains(keyword))
+                .ToList();
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
@@ -55,6 +52,5 @@ namespace Tap2PaySystem.Views
             manager.Show();
             this.Close();
         }
-
     }
 }

@@ -1,0 +1,148 @@
+﻿<Window x:Class="Tap2PaySystem.Views.TopUpView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Top Up"
+        Height="650"
+        Width="1000"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="15">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <DockPanel Grid.Row="0" Margin="0,0,0,15">
+
+            <Button x:Name="btnBack"
+                    Content="←"
+                    Width="40"
+                    Height="35"
+                    Click="btnBack_Click"
+                    DockPanel.Dock="Left"/>
+
+            <TextBlock Text="Top Up Balance"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+        </DockPanel>
+
+        <!-- Top Up Form -->
+        <Border Grid.Row="1"
+                BorderBrush="Gray"
+                BorderThickness="1"
+                Padding="15"
+                Margin="0,0,0,15">
+
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
+                    <ColumnDefinition Width="150"/>
+                    <ColumnDefinition Width="250"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="40"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="RFID UID"
+                     VerticalAlignment="Center"/>
+
+                <TextBox x:Name="txtRFID"
+                     Grid.Column="1"
+                     Margin="5"
+                     IsReadOnly="True"/>
+
+                <Button x:Name="btnScanRFID"
+                    Grid.Column="3"
+                    Width="150"
+                    Height="30"
+                    HorizontalAlignment="Left"
+                    Content="SCAN RFID"
+                    Click="btnScanRFID_Click"/> 
+
+                
+                <TextBox x:Name="txtRFIDScanner"
+                     Visibility="Collapsed"
+                     KeyDown="txtRFIDScanner_KeyDown"/>
+
+                <TextBlock Text="Current Balance"
+                           Grid.Row="1"
+                           VerticalAlignment="Center"/>
+
+                <TextBox x:Name="txtBalance"
+                         Grid.Row="1"
+                         Grid.Column="1"
+                         Margin="5"
+                         IsReadOnly="True"/>
+
+                <TextBlock Text="Top Up Amount"
+                           Grid.Row="2"
+                           VerticalAlignment="Center"/>
+
+                <TextBox x:Name="txtAmount"
+                         Grid.Row="2"
+                         Grid.Column="1"
+                         Margin="5"/>
+
+                <Button x:Name="btnTopUp"
+                        Grid.Row="3"
+                        Grid.Column="3"
+                        Width="150"
+                        Height="35"
+                        HorizontalAlignment="Right"
+                        Content="TOP UP"
+                        Click="btnTopUp_Click"/>
+
+            </Grid>
+
+        </Border>
+
+        <!-- Users -->
+        <DataGrid x:Name="dgUsers"
+                  Grid.Row="2"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionChanged="dgUsers_SelectionChanged">
+
+            <DataGrid.Columns>
+
+                <DataGridTextColumn Header="ID"
+                                    Binding="{Binding UserId}"
+                                    Width="70"/>
+
+                <DataGridTextColumn Header="Full Name"
+                                    Binding="{Binding FullName}"
+                                    Width="220"/>
+
+                <DataGridTextColumn Header="RFID UID"
+                                    Binding="{Binding RFIDUID}"
+                                    Width="150"/>
+
+                <DataGridTextColumn Header="Role"
+                                    Binding="{Binding Role}"
+                                    Width="100"/>
+
+                <DataGridTextColumn Header="Balance"
+                                    Binding="{Binding Balance,StringFormat=₱{0:N2}}"
+                                    Width="120"/>
+
+                <DataGridTextColumn Header="Status"
+                                    Binding="{Binding Status}"
+                                    Width="100"/>
+
+            </DataGrid.Columns>
+
+        </DataGrid>
+
+    </Grid>
+
+</Window>

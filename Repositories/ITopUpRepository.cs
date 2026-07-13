@@ -7,13 +7,10 @@ using Tap2PaySystem.Models;
 
 namespace Tap2PaySystem.Repositories
 {
-    public interface IUserRepository
+    public interface ITopUpRepository
     {
-        User Login(string username, string password);
+        void AddTopUp(TopUp topUp);
         List<User> GetAllUsers();
-        void AddUser(User user);
-        void UpdateUser(User user);
-        void DeleteUser(int userId);
+        void UpdateBalance(int userId, decimal newBalance);
     }
-
 }

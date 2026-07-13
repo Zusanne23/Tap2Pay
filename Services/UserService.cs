@@ -26,5 +26,15 @@ namespace Tap2PaySystem.Services
         {
             repository.AddUser(user);
         }
+
+        public void UpdateUser(User user)
+        {
+            repository.UpdateUser(user);
+        }
+
+        public void DeleteUser(int userId)
+        {
+            repository.DeleteUser(userId);
+        }
     }
 }

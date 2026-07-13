@@ -6,37 +6,92 @@
         xmlns:vm="clr-namespace:Tap2PaySystem.ViewModel"
         mc:Ignorable="d"
         Title="User Management"
-        Height="500"
-        Width="900">
+        Height="650"
+        Width="1100"
+        WindowStartupLocation="CenterScreen">
 
-    <Window.DataContext>
-        <vm:UserManagementViewModel/>
-    </Window.DataContext>
+    <Grid Margin="15">
 
-    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <DataGrid ItemsSource="{Binding Users}"
-                  AutoGenerateColumns="False">
+        <DockPanel Margin="0,0,0,15">
+
+            <Button x:Name="btnBack"
+                    Content="←"
+                    Width="40"
+                    Height="35"
+                    DockPanel.Dock="Left"
+                    Click="btnBack_Click"/>
+
+            <TextBlock Text="User Management"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+        </DockPanel>
+
+
+        <StackPanel Grid.Row="1"
+                    Orientation="Horizontal"
+                    Margin="0,0,0,10">
+
+            <TextBox x:Name="txtSearch"
+                     Width="250"
+                     Height="35"
+                     VerticalContentAlignment="Center"
+                     TextChanged="txtSearch_TextChanged"/>
+
+            <Button x:Name="btnEdit"
+                    Content="Edit User"
+                    Width="120"
+                    Height="35"
+                    Margin="10,0"/>
+
+            <Button x:Name="btnDelete"
+                    Content="Delete User"
+                    Width="120"
+                    Height="35"/>
+        </StackPanel>
+        
+        <DataGrid x:Name="dgUsers"
+                  Grid.Row="2"
+                  ItemsSource="{Binding Users}"
+                  AutoGenerateColumns="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single">
 
             <DataGrid.Columns>
 
                 <DataGridTextColumn Header="ID"
-                                    Binding="{Binding UserId}" />
+                                    Binding="{Binding UserId}"
+                                    Width="70"/>
 
                 <DataGridTextColumn Header="Full Name"
-                                    Binding="{Binding FullName}" />
+                                    Binding="{Binding FullName}"
+                                    Width="220"/>
 
                 <DataGridTextColumn Header="Username"
-                                    Binding="{Binding Username}" />
+                                    Binding="{Binding Username}"
+                                    Width="150"/>
+
+                <DataGridTextColumn Header="RFID UID"
+                                    Binding="{Binding RFIDUID}"
+                                    Width="150"/>
 
                 <DataGridTextColumn Header="Role"
-                                    Binding="{Binding Role}" />
+                                    Binding="{Binding Role}"
+                                    Width="100"/>
 
                 <DataGridTextColumn Header="Status"
-                                    Binding="{Binding Status}" />
+                                    Binding="{Binding Status}"
+                                    Width="100"/>
 
                 <DataGridTextColumn Header="Balance"
-                                    Binding="{Binding Balance}" />
+                                    Binding="{Binding Balance,StringFormat=₱{0:N2}}"
+                                    Width="120"/>
 
             </DataGrid.Columns>
 

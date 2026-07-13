@@ -95,7 +95,7 @@
                            Foreground="Gray"
                            Margin="0,5,0,25"/>
 
-                <UniformGrid Columns="2">
+                <UniformGrid Columns="2" Height="473">
 
                     <Button Content="POS"
                             Height="120"
@@ -127,11 +127,15 @@
                             FontSize="20"
                             Click="btnTopUp_Click"/>
 
-                    <Button Content="Transaction History"
+                    <Button x:Name="btnTopUpHistory"
+                            Content="Top Up History"
                             Height="120"
                             Margin="10"
-                            FontSize="20"
-                            Click="btnTransactionHistory_Click"/>
+                            Click="btnTopUpHistory_Click"/>
+
+                    <Button Content="Transaction History"
+                            Click="btnTransactionHistory_Click"
+                            Height="120"/>
 
                     <Button Content="Reports"
                             Height="120"

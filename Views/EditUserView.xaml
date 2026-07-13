@@ -1,0 +1,89 @@
+﻿<Window x:Class="Tap2PaySystem.Views.EditUserView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Edit User"
+        Height="450"
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="130"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Text="Full Name" VerticalAlignment="Center"/>
+        <TextBox x:Name="txtFullName"
+                 Grid.Column="1"
+                 Margin="5"/>
+
+        <TextBlock Text="Username"
+                   Grid.Row="1"
+                   VerticalAlignment="Center"/>
+        <TextBox x:Name="txtUsername"
+                 Grid.Row="1"
+                 Grid.Column="1"
+                 Margin="5"/>
+
+        <TextBlock Text="Password"
+                   Grid.Row="2"
+                   VerticalAlignment="Center"/>
+        <PasswordBox x:Name="txtPassword"
+                     Grid.Row="2"
+                     Grid.Column="1"
+                     Margin="5"/>
+
+        <TextBlock Text="Role"
+                   Grid.Row="3"
+                   VerticalAlignment="Center"/>
+        <ComboBox x:Name="cbRole"
+                  Grid.Row="3"
+                  Grid.Column="1"
+                  Margin="5">
+            <ComboBoxItem Content="User"/>
+            <ComboBoxItem Content="Cashier"/>
+            <ComboBoxItem Content="Manager"/>
+        </ComboBox>
+
+        <TextBlock Text="Status"
+                   Grid.Row="4"
+                   VerticalAlignment="Center"/>
+        <ComboBox x:Name="cbStatus"
+                  Grid.Row="4"
+                  Grid.Column="1"
+                  Margin="5">
+            <ComboBoxItem Content="Active"/>
+            <ComboBoxItem Content="Inactive"/>
+        </ComboBox>
+
+        <TextBlock Text="Balance"
+                   Grid.Row="5"
+                   VerticalAlignment="Center"/>
+        <TextBox x:Name="txtBalance"
+                 Grid.Row="5"
+                 Grid.Column="1"
+                 Margin="5"/>
+
+        <Button x:Name="btnSave"
+                Grid.Row="6"
+                Grid.Column="1"
+                Width="120"
+                Height="35"
+                HorizontalAlignment="Right"
+                Content="SAVE"
+                Click="btnSave_Click"/>
+
+    </Grid>
+
+</Window>

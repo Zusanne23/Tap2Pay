@@ -20,15 +20,32 @@ namespace Tap2PaySystem.Views
     {
         private readonly UserService userService = new UserService();
 
+        private bool waitingForRFID = false;
+
+        private string scannedRFID = "";
+
         public RegistrationView()
         {
             InitializeComponent();
+
+            txtRFID.IsReadOnly = true;
+
+            LoadUsers();
+        }
+        private void RegistrationView_Loaded(object sender, RoutedEventArgs e)
+        {
+            txtRFID.Focus();
+        }
+        private void LoadUsers()
+        {
+            dgUsers.ItemsSource = userService.GetAllUsers();
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
             try
             {
+     
                 User user = new User
                 {
                     FullName = txtFullName.Text,
@@ -42,9 +59,10 @@ namespace Tap2PaySystem.Views
 
                 userService.AddUser(user);
 
-                MessageBox.Show("User registered successfully!");
+                txtRFID.IsReadOnly = true;
 
-                // Clear fields
+                LoadUsers();
+
                 txtFullName.Clear();
                 txtUsername.Clear();
                 txtPassword.Clear();
@@ -56,6 +74,43 @@ namespace Tap2PaySystem.Views
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            
+        }
+        private void btnScanRFID_Click(object sender, RoutedEventArgs e)
+        {
+            waitingForRFID = true;
+
+            txtRFID.Clear();
+            txtRFIDScanner.Clear();
+
+            MessageBox.Show(
+                "Please tap the Student ID.",
+                "RFID Scanner",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+
+            txtRFIDScanner.Focus();
+        }
+
+        private void txtRFIDScanner_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (!waitingForRFID)
+                return;
+
+            if (e.Key == Key.Enter)
+            {
+                txtRFID.Text = txtRFIDScanner.Text.Trim();
+
+                txtRFIDScanner.Clear();
+
+                waitingForRFID = false;
+
+                MessageBox.Show(
+                    "RFID scanned successfully!",
+                    "Success",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
         }
     }

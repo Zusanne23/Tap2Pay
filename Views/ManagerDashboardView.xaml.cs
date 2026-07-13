@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Tap2PaySystem.Views;
 
 
 namespace Tap2PaySystem.Views
@@ -36,7 +37,9 @@ namespace Tap2PaySystem.Views
 
         private void btnUsers_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("User Management Module");
+            UserManagementView userManagement = new UserManagementView();
+            userManagement.Show();
+            this.Close();
         }
 
         private void btnInventory_Click(object sender, RoutedEventArgs e)
@@ -44,20 +47,27 @@ namespace Tap2PaySystem.Views
             InventoryView inventory = new InventoryView();
             inventory.Show();
 
-            // Optional:
-            // this.Hide();
         }
 
         private void btnTopUp_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Top Up Module");
+            TopUpView topUp = new TopUpView();
+            topUp.Show();
+            this.Close();
         }
 
+        private void btnTopUpHistory_Click(object sender, RoutedEventArgs e)
+        {
+            TopUpHistoryView topUpHistory = new TopUpHistoryView();
+            topUpHistory.Show();
+            this.Close();
+        }
         private void btnTransactionHistory_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Transaction History Module");
+            TransactionHistoryView history = new TransactionHistoryView();
+            history.Show();
+            this.Close();
         }
-
         private void btnReports_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("Reports Module");

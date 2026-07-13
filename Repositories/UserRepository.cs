@@ -128,5 +128,53 @@ namespace Tap2PaySystem.Repositories
                 cmd.ExecuteNonQuery();
             }
         }
+
+        public void UpdateUser(User user)
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = @"
+                            UPDATE Users
+                            SET FullName=@FullName,
+                                Username=@Username,
+                                Password=@Password,
+                                RFIDUID=@RFIDUID,
+                                Role=@Role,
+                                Status=@Status,
+                                Balance=@Balance
+                            WHERE UserId=@UserId";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@UserId", user.UserId);
+                cmd.Parameters.AddWithValue("@FullName", user.FullName);
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@RFIDUID", user.RFIDUID);
+                cmd.Parameters.AddWithValue("@Role", user.Role);
+                cmd.Parameters.AddWithValue("@Status", user.Status);
+                cmd.Parameters.AddWithValue("@Balance", user.Balance);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void DeleteUser(int userId)
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "DELETE FROM Users WHERE UserId=@UserId";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@UserId", userId);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

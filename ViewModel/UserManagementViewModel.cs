@@ -9,17 +9,24 @@ using Tap2PaySystem.Services;
 
 namespace Tap2PaySystem.ViewModel
 {
-    public class UserManagementViewModel : BaseViewModel
-    {
-        private readonly UserService userService;
-
-        public ObservableCollection<User> Users { get; set; }
-
-        public UserManagementViewModel()
+        public class UserManagementViewModel : BaseViewModel
         {
-            userService = new UserService();
+            private readonly UserService userService;
 
-            Users = new ObservableCollection<User>(userService.GetAllUsers());
+            public ObservableCollection<User> Users { get; set; }
+
+            public UserManagementViewModel()
+            {
+                userService = new UserService();
+
+                LoadUsers();
+            }
+
+            public void LoadUsers()
+            {
+                Users = new ObservableCollection<User>(userService.GetAllUsers());
+
+                OnPropertyChanged(nameof(Users));
+            }
         }
-    }
 }
