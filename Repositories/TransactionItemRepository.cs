@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Data.SqlClient;
-using Tap2PaySystem.Data;
-using Tap2PaySystem.Models;
+using Tap2PayAdmin.Data;
+using Tap2PayAdmin.Models;
 
-namespace Tap2PaySystem.Repositories
+namespace Tap2PayAdmin.Repositories
 {
     public class TransactionItemRepository
     {
@@ -21,14 +21,14 @@ namespace Tap2PaySystem.Repositories
 
                 string query = @"
                 INSERT INTO TransactionItem
-                (TransactionId,InventoryId,Quantity,Price,Amount)
+                (TransactionId,ProductId,Quantity,Price,Amount)
                 VALUES
-                (@TransactionId,@InventoryId,@Quantity,@Price,@Amount)";
+                (@TransactionId,@ProductId,@Quantity,@Price,@Amount)";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@TransactionId", item.TransactionId);
-                cmd.Parameters.AddWithValue("@InventoryId", item.InventoryId);
+                cmd.Parameters.AddWithValue("@ProductId", item.ProductId);
                 cmd.Parameters.AddWithValue("@Quantity", item.Quantity);
                 cmd.Parameters.AddWithValue("@Price", item.Price);
                 cmd.Parameters.AddWithValue("@Amount", item.Amount);

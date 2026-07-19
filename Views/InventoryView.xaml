@@ -1,175 +1,221 @@
-﻿<Window x:Class="Tap2PaySystem.Views.InventoryView"
+﻿<Window x:Class="Tap2PayAdmin.Views.InventoryView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Inventory"
-        Height="650"
-        Width="1000"
-        WindowStartupLocation="CenterScreen">
+        Height="700"
+        Width="1100"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F7FA">
 
-    <Grid Margin="15">
+    <Grid Margin="20">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="220"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Search -->
-        <StackPanel Orientation="Horizontal">
+        <!-- HEADER -->
+        <DockPanel Grid.Row="0"
+                   Margin="0,0,0,20">
 
-            <TextBox x:Name="txtSearch"
-                     Width="250"
-                     Height="30"
-                     Margin="0,0,10,0"/>
+            <Button x:Name="btnBack"
+                    Width="40"
+                    Height="35"
+                    Content="←"
+                    Click="btnBack_Click"
+                    DockPanel.Dock="Left"/>
 
-            <Button x:Name="btnSearch"
-                    Content="Search"
-                    Width="100"
-                    Height="30"/>
+            <TextBlock Text="Inventory"
+                       FontSize="28"
+                       FontWeight="Bold"
+                       Margin="15,0,0,0"
+                       VerticalAlignment="Center"/>
 
-        </StackPanel>
+        </DockPanel>
 
-        <!-- Item Information -->
-        <Border Grid.Row="1"
-                BorderBrush="Gray"
-                BorderThickness="1"
-                CornerRadius="5"
-                Padding="15"
-                Margin="0,15,0,15">
+        <!-- DASHBOARD -->
+        <UniformGrid Grid.Row="1"
+                     Columns="4"
+                     Margin="0,0,0,20">
 
-            <Grid>
+            <Border Background="#3498DB"
+                    CornerRadius="10"
+                    Margin="5">
 
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="250"/>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="250"/>
-                </Grid.ColumnDefinitions>
+                <StackPanel Margin="15">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="40"/>
-                    <RowDefinition Height="60"/>
-                </Grid.RowDefinitions>
+                    <TextBlock Text="Total Products"
+                               Foreground="White"/>
 
-                <!-- Item Name -->
-                <TextBlock Text="Item Name"
-                           VerticalAlignment="Center"/>
-
-                <TextBox x:Name="txtItemName"
-                         Grid.Column="1"
-                         Margin="5"/>
-
-                <!-- Price -->
-                <TextBlock Text="Price"
-                           Grid.Column="2"
-                           VerticalAlignment="Center"/>
-
-                <TextBox x:Name="txtPrice"
-                         Grid.Column="3"
-                         Margin="5"/>
-
-                <!-- Stock -->
-                <TextBlock Text="Stock"
-                           Grid.Row="1"
-                           VerticalAlignment="Center"/>
-
-                <TextBox x:Name="txtStock"
-                         Grid.Row="1"
-                         Grid.Column="1"
-                         Margin="5"/>
-
-                <!-- Expiration -->
-                <TextBlock Text="Exp. Date"
-                           Grid.Row="1"
-                           Grid.Column="2"
-                           VerticalAlignment="Center"/>
-
-                <DatePicker x:Name="dpExpiration"
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Margin="5"/>
-
-                <!-- Status -->
-                <TextBlock Text="Status"
-                           Grid.Row="2"
-                           VerticalAlignment="Center"/>
-
-                <ComboBox x:Name="cbStatus"
-                          Grid.Row="2"
-                          Grid.Column="1"
-                          Margin="5">
-                    <ComboBoxItem Content="Available"/>
-                    <ComboBoxItem Content="Out of Stock"/>
-                    <ComboBoxItem Content="Expired"/>
-                </ComboBox>
-
-                <!-- Buttons -->
-                <StackPanel Grid.Row="3"
-                            Grid.ColumnSpan="4"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Center">
-
-                    <Button x:Name="btnAdd"
-                            Content="Add New Item"
-                            Width="130"
-                            Height="35"
-                            Margin="5"
-                            Click="btnAdd_Click"/>
-
-                    <Button x:Name="btnEdit"
-                            Content="Edit"
-                            Width="100"
-                            Height="35"
-                            Margin="5"
-                            Click="btnEdit_Click"/>
-
-                    <Button x:Name="btnDelete"
-                            Content="Delete"
-                            Width="100"
-                            Height="35"
-                            Margin="5"
-                            Click="btnDelete_Click"/>
-
-                    <Button x:Name="btnBack"
-                        Content="Back"
-                        Width="100"
-                        Height="35"
-                        HorizontalAlignment="Right"
-                        Click="btnBack_Click"/>         
+                    <TextBlock x:Name="txtTotalProducts"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"/>
 
                 </StackPanel>
 
-            </Grid>
+            </Border>
 
-        </Border>
+            <Border Background="#2ECC71"
+                    CornerRadius="10"
+                    Margin="5">
 
-        <!-- DataGrid -->
+                <StackPanel Margin="15">
+
+                    <TextBlock Text="Available"
+                               Foreground="White"/>
+
+                    <TextBlock x:Name="txtAvailable"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+
+                </StackPanel>
+
+            </Border>
+
+            <Border Background="#F39C12"
+                    CornerRadius="10"
+                    Margin="5">
+
+                <StackPanel Margin="15">
+
+                    <TextBlock Text="Low Stock"
+                               Foreground="White"/>
+
+                    <TextBlock x:Name="txtLowStock"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+
+                </StackPanel>
+
+            </Border>
+
+            <Border Background="#E74C3C"
+                    CornerRadius="10"
+                    Margin="5">
+
+                <StackPanel Margin="15">
+
+                    <TextBlock Text="Out of Stock"
+                               Foreground="White"/>
+
+                    <TextBlock x:Name="txtOutStock"
+                               FontSize="28"
+                               FontWeight="Bold"
+                               Foreground="White"/>
+
+                </StackPanel>
+
+            </Border>
+
+        </UniformGrid>
+
+        <!-- SEARCH -->
+        <DockPanel Grid.Row="2"
+                   Margin="0,0,0,15">
+
+            <TextBox x:Name="txtSearch"
+                     Width="300"
+                     Height="35"
+                     VerticalContentAlignment="Center"
+                     DockPanel.Dock="Left"/>
+
+            <Button x:Name="btnSearch"
+                    Content="Search"
+                    Width="90"
+                    Height="35"
+                    Margin="10,0,0,0"
+                    Click="btnSearch_Click"
+                    DockPanel.Dock="Left"/>
+
+            <Button x:Name="btnAdd"
+                    Content="Add New Item"
+                    Width="140"
+                    Height="35"
+                    HorizontalAlignment="Right"
+                    Click="btnAdd_Click"
+                    DockPanel.Dock="Right"/>
+
+        </DockPanel>
+
+        <!-- INVENTORY TABLE -->
         <DataGrid x:Name="dgInventory"
-          Grid.Row="2"
-          AutoGenerateColumns="False"
-          SelectionChanged="dgInventory_SelectionChanged">
+                  Grid.Row="3"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionChanged="dgInventory_SelectionChanged">
 
             <DataGrid.Columns>
 
                 <DataGridTextColumn Header="ID"
+                                    Width="70"
                                     Binding="{Binding InventoryId}"/>
 
                 <DataGridTextColumn Header="Item Name"
+                                    Width="250"
                                     Binding="{Binding ItemName}"/>
 
                 <DataGridTextColumn Header="Price"
-                                    Binding="{Binding Price}"/>
+                                    Width="120"
+                                    Binding="{Binding Price,StringFormat=C}"/>
 
                 <DataGridTextColumn Header="Stock"
+                                    Width="100"
                                     Binding="{Binding Stock}"/>
 
-                <DataGridTextColumn Header="Expiration Date"
-                                    Binding="{Binding ExpirationDate}"/>
-
+                <DataGridTextColumn Header="Expiration"
+                                    Width="170"
+                                    Binding="{Binding ExpirationDate,StringFormat=d}"/>
                 <DataGridTextColumn Header="Status"
+                                    Width="130"
                                     Binding="{Binding Status}"/>
+
+                <DataGridTemplateColumn
+                                    x:Name="editColumn"
+                                    Header="Edit">  
+                    <DataGridTemplateColumn.CellTemplate>
+
+                        <DataTemplate>
+
+                            <Button Content="Edit"
+                                    Width="60"
+                                    Height="28"
+                                    Tag="{Binding}"
+                                    Click="btnEdit_Click"/>
+
+                        </DataTemplate>
+
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn
+                                    x:Name="deleteColumn"
+                                    Header="Delete">
+
+                    <DataGridTemplateColumn.CellTemplate>
+
+                        <DataTemplate>
+
+                            <Button Content="Delete"
+                                    Width="60"
+                                    Height="28"
+                                    Foreground="Red"
+                                    Tag="{Binding}"
+                                    Click="btnDelete_Click"/>   
+
+                        </DataTemplate>
+
+                    </DataGridTemplateColumn.CellTemplate>
+
+                </DataGridTemplateColumn>
 
             </DataGrid.Columns>
 

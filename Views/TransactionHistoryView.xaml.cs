@@ -12,9 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Linq;
-using Tap2PaySystem.Services;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class TransactionHistoryView : Window
     {
@@ -30,31 +30,49 @@ namespace Tap2PaySystem.Views
 
         private void LoadTransactions()
         {
-            dgTransactions.ItemsSource = service.GetTransactions();
+            var transactions = service.GetAllTransactions();
+
+            dgTransaction.ItemsSource = transactions;
+
+            txtTotalTransactions.Text =
+                $"Total Transactions: {transactions.Count}";
+
+            txtTotalSales.Text =
+                $"Total Sales: ₱{transactions.Sum(x => x.TotalAmount):N2}";
         }
 
-        private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
-            if (!IsLoaded)
-                return;
+            string keyword = txtSearch.Text.Trim().ToLower();
 
-            string keyword = txtSearch.Text?.ToLower() ?? "";
+            var filtered = service
+                .GetAllTransactions()
+                .Where(x =>
+                    x.CustomerName.ToLower().Contains(keyword) ||
+                    x.OrderPurchased.ToLower().Contains(keyword))
+                .ToList();
 
-            var list = service.GetTransactions();
+            dgTransaction.ItemsSource = filtered;
 
-            dgTransactions.ItemsSource = list.Where(x =>
-                (x.FullName ?? "").ToLower().Contains(keyword) ||
-                (x.RFIDUID ?? "").ToLower().Contains(keyword) ||
-                x.TransactionId.ToString().Contains(keyword))
-            .ToList();
+            txtTotalTransactions.Text =
+                $"Total Transactions: {filtered.Count}";
+
+            txtTotalSales.Text =
+                $"Total Sales: ₱{filtered.Sum(x => x.TotalAmount):N2}";
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            ManagerDashboardView manager = new ManagerDashboardView();
-            manager.Show();
-            this.Close();
-        }
+            if (Session.CurrentUser.Role == "Manager")
+            {
+                new ManagerDashboardView().Show();
+            }
+            else
+            {
+                new CashierDashboardView().Show();
+            }
 
+            Close();
+        }
     }
 }

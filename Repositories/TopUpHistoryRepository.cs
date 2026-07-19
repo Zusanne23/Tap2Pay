@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Tap2PaySystem.Data;
-using Tap2PaySystem.Models;
+using Tap2PayAdmin.Data;
+using Tap2PayAdmin.Models;
 using Microsoft.Data.SqlClient;
 
-namespace Tap2PaySystem.Repositories
+namespace Tap2PayAdmin.Repositories
 {
     public class TopUpHistoryRepository
     {

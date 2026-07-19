@@ -10,22 +10,32 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using System.Windows.Shapes;    
+using Tap2PayAdmin.Models;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class PaymentSuccessView : Window
     {
-        public PaymentSuccessView()
+        public PaymentSuccessView(
+            string customerName,
+            string rfid,
+            decimal total,
+            decimal remainingBalance,
+            List<CartItem> items)
         {
             InitializeComponent();
+
+            txtName.Text = customerName;
+            txtRFID.Text = rfid;
+            txtTotal.Text = "₱ " + total.ToString("N2");
+            txtRemainingBalance.Text = "₱ " + remainingBalance.ToString("N2");
+
+            lvReceipt.ItemsSource = items;
         }
 
-        private void btnDone_Click(object sender, RoutedEventArgs e)
+        private void btnNewTransaction_Click(object sender, RoutedEventArgs e)
         {
-            KioskView kiosk = new KioskView();
-            kiosk.Show();
-
             this.Close();
         }
     }

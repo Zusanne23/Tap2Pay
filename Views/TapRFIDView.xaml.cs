@@ -11,8 +11,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Tap2PayAdmin.Models;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class TapRFIDView : Window
     {
@@ -23,8 +24,15 @@ namespace Tap2PaySystem.Views
 
         private void btnRFID_Click(object sender, RoutedEventArgs e)
         {
-            PaymentSuccessView payment = new PaymentSuccessView();
-            payment.Show();
+            PaymentSuccessView payment = new PaymentSuccessView(
+                "Juan Dela Cruz",
+                "2023-00145",
+                60.00m,
+                240.00m,
+                new List<CartItem>()
+            );
+
+            payment.ShowDialog();
 
             this.Close();
         }

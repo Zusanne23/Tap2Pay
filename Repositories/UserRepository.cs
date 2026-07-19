@@ -1,10 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Collections.Generic;
 using System.Windows;
-using Tap2PaySystem.Data;
-using Tap2PaySystem.Models;
+using Tap2PayAdmin.Data;
+using Tap2PayAdmin.Models;
 
-namespace Tap2PaySystem.Repositories
+namespace Tap2PayAdmin.Repositories
 {
     public class UserRepository : IUserRepository
     {
@@ -15,7 +15,6 @@ namespace Tap2PaySystem.Repositories
             using (SqlConnection conn = dbConnection.GetConnection())
             {
                 conn.Open();
-                MessageBox.Show(conn.Database);
 
                 string query = @"SELECT * FROM Users
                                  WHERE Username = @Username
@@ -175,6 +174,40 @@ namespace Tap2PaySystem.Repositories
 
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public User GetUserByRFID(string rfid)
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = @"SELECT * FROM Users
+                         WHERE RFIDUID = @RFIDUID
+                         AND Status = 'Active'";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@RFIDUID", rfid);
+
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    return new User
+                    {
+                        UserId = (int)reader["UserId"],
+                        FullName = reader["FullName"].ToString(),
+                        Username = reader["Username"].ToString(),
+                        RFIDUID = reader["RFIDUID"].ToString(),
+                        Role = reader["Role"].ToString(),
+                        Status = reader["Status"].ToString(),
+                        Balance = Convert.ToDecimal(reader["Balance"])
+                    };
+                }
+            }
+
+            return null;
         }
     }
 }

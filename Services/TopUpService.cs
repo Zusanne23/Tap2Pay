@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Repositories;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Repositories;
 
-namespace Tap2PaySystem.Services
+namespace Tap2PayAdmin.Services
 {
     public class TopUpService
     {

@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tap2PaySystem.Data;
-using Tap2PaySystem.Models;
+using Tap2PayAdmin.Data;
+using Tap2PayAdmin.Models;
 
-namespace Tap2PaySystem.Repositories
+namespace Tap2PayAdmin.Repositories
 {
     public class InventoryRepository : IInventoryRepository
     {
-        private readonly Tap2PaySystem.Data.DbConnection dbConnection =
-        new Tap2PaySystem.Data.DbConnection();
+        private readonly Tap2PayAdmin.Data.DbConnection dbConnection =
+        new Tap2PayAdmin.Data.DbConnection();
         public List<Inventory> GetAllItems()
         {
             List<Inventory> list = new List<Inventory>();
@@ -129,6 +129,60 @@ namespace Tap2PaySystem.Repositories
                 cmd.Parameters.AddWithValue("@InventoryId", inventoryId);
 
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public int GetTotalProducts()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                SqlCommand cmd = new SqlCommand(
+                    "SELECT COUNT(*) FROM Inventory", conn);
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+        public int GetAvailableProducts()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT COUNT(*) FROM Inventory WHERE Status='Available'";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        public int GetLowStockProducts()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT COUNT(*) FROM Inventory WHERE Stock <= 5 AND Stock > 0";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
+            }
+        }
+
+        public int GetOutOfStockProducts()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = "SELECT COUNT(*) FROM Inventory WHERE Stock <= 0";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
     }

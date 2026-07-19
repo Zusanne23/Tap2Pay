@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Data.SqlClient;
 
-namespace Tap2PaySystem.Data
+namespace Tap2PayAdmin.Data
 {
     public class DatabaseTest
     {

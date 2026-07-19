@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using Tap2PayAdmin.Data;
+using Tap2PayAdmin.Models;
 
-using Microsoft.Data.SqlClient;
-using Tap2PaySystem.Data;
-using Tap2PaySystem.Models;
-
-namespace Tap2PaySystem.Repositories
+namespace Tap2PayAdmin.Repositories
 {
     public class TransactionHistoryRepository
     {
         private readonly DbConnection db = new DbConnection();
 
-        public List<TransactionHistory> GetTransactions()
+        public List<Transaction> GetAllTransactions()
         {
-            List<TransactionHistory> list = new List<TransactionHistory>();
+            List<Transaction> list = new List<Transaction>();
 
             using (SqlConnection conn = db.GetConnection())
             {
@@ -25,16 +25,20 @@ namespace Tap2PaySystem.Repositories
                 string query = @"
                 SELECT
                     t.TransactionId,
-                    t.UserId,
-                    u.FullName,
+                    u.FullName AS CustomerName,
                     u.RFIDUID,
+                    i.ItemName AS OrderPurchased,
+                    ti.Quantity,
                     t.TotalAmount,
-                    t.PaymentMethod,
                     t.TransactionDate,
                     t.Status
                 FROM Transactions t
                 INNER JOIN Users u
                     ON t.UserId = u.UserId
+                INNER JOIN TransactionItem ti
+                    ON t.TransactionId = ti.TransactionId
+                INNER JOIN Inventory i
+                    ON ti.InventoryId = i.InventoryId
                 ORDER BY t.TransactionDate DESC";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
@@ -43,18 +47,19 @@ namespace Tap2PaySystem.Repositories
 
                 while (reader.Read())
                 {
-                    list.Add(new TransactionHistory
+                    list.Add(new Transaction
                     {
-                        TransactionId = (int)reader["TransactionId"],
-                        UserId = (int)reader["UserId"],
-                        FullName = reader["FullName"].ToString(),
+                        TransactionId = Convert.ToInt32(reader["TransactionId"]),
+                        CustomerName = reader["CustomerName"].ToString(),
                         RFIDUID = reader["RFIDUID"].ToString(),
-                        TotalAmount = (decimal)reader["TotalAmount"],
-                        PaymentMethod = reader["PaymentMethod"].ToString(),
-                        TransactionDate = (DateTime)reader["TransactionDate"],
+                        OrderPurchased = reader["OrderPurchased"].ToString(),
+                        Quantity = Convert.ToInt32(reader["Quantity"]),
+                        TotalAmount = Convert.ToDecimal(reader["TotalAmount"]),
+                        TransactionDate = Convert.ToDateTime(reader["TransactionDate"]),
                         Status = reader["Status"].ToString()
                     });
                 }
+
             }
 
             return list;

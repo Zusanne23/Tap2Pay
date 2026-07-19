@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System;
 
-namespace Tap2PaySystem.Models
+namespace Tap2PayAdmin.Models
 {
     public class TopUpHistory
     {

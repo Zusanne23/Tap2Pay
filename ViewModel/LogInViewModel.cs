@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using Tap2PaySystem.Commands;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
+using Tap2PayAdmin.Commands;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.ViewModel
+namespace Tap2PayAdmin.ViewModel
 {
     public class LogInViewModel : BaseViewModel
     {

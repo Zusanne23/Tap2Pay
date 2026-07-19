@@ -1,11 +1,14 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace Tap2PaySystem.Data
+namespace Tap2PayAdmin.Data
 {
     public class DbConnection
     {
         private readonly string connectionString =
-     @"Server=(localdb)\MSSQLLocalDB;Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=Tap2PaySystemDb;Integrated Security=True;Connect Timeout=60;Encrypt=True;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
+ @"Server=(localdb)\MSSQLLocalDB;
+Initial Catalog=Tap2PaySystemDb;
+Integrated Security=True;
+TrustServerCertificate=True;";
         public SqlConnection GetConnection()
         {
             return new SqlConnection(connectionString);

@@ -1,4 +1,4 @@
-﻿<Window x:Class="Tap2PaySystem.Views.TopUpHistoryView"
+﻿<Window x:Class="Tap2PayAdmin.Views.TopUpHistoryView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Top Up History"

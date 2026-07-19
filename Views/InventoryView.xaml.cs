@@ -1,111 +1,90 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class InventoryView : Window
     {
         private readonly InventoryService inventoryService = new InventoryService();
 
+
         public InventoryView()
         {
             InitializeComponent();
+            if (Session.CurrentUser.Role == "Cashier")
+            {
+                btnAdd.Visibility = Visibility.Collapsed;
+            }
+
             LoadInventory();
+            if (Session.CurrentUser.Role == "Cashier")
+            {
+                btnAdd.Visibility = Visibility.Collapsed;
+
+                editColumn.Visibility = Visibility.Collapsed;
+                deleteColumn.Visibility = Visibility.Collapsed;
+            }
+
         }
 
         private void LoadInventory()
         {
-            dgInventory.ItemsSource = null;
             dgInventory.ItemsSource = inventoryService.GetAllItems();
+
+            txtTotalProducts.Text = inventoryService.GetTotalProducts().ToString();
+            txtAvailable.Text = inventoryService.GetAvailableProducts().ToString();
+            txtLowStock.Text = inventoryService.GetLowStockProducts().ToString();
+            txtOutStock.Text = inventoryService.GetOutOfStockProducts().ToString();
         }
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                Inventory item = new Inventory
-                {
-                    ItemName = txtItemName.Text,
-                    Price = decimal.Parse(txtPrice.Text),
-                    Stock = int.Parse(txtStock.Text),
-                    ExpirationDate = dpExpiration.SelectedDate.Value,
-                    Status = cbStatus.Text
-                };
+            AddInventoryView add = new AddInventoryView();
+            add.Owner = this;
+            add.ShowDialog();
 
-                inventoryService.AddItem(item);
-
-                MessageBox.Show("Item added successfully!");
-
-                LoadInventory();
-                ClearFields();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            LoadInventory();
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
         {
-            if (dgInventory.SelectedItem == null)
+            Button button = (Button)sender;
+
+            Inventory item = (Inventory)button.Tag;
+
+            AddInventoryView edit = new AddInventoryView(item);
+
+            if (edit.ShowDialog() == true)
             {
-                MessageBox.Show("Please select an item.");
-                return;
-            }
-
-            try
-            {
-                Inventory item = (Inventory)dgInventory.SelectedItem;
-
-                item.ItemName = txtItemName.Text;
-                item.Price = decimal.Parse(txtPrice.Text);
-                item.Stock = int.Parse(txtStock.Text);
-                item.ExpirationDate = dpExpiration.SelectedDate.Value;
-                item.Status = cbStatus.Text;
-
-                inventoryService.UpdateItem(item);
-
-                MessageBox.Show("Item updated successfully!");
-
                 LoadInventory();
-                ClearFields();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
             }
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)
-        {
-            if (dgInventory.SelectedItem == null)
-            {
-                MessageBox.Show("Please select an item.");
-                return;
-            }
+{
+    Button button = (Button)sender;
 
-            Inventory item = (Inventory)dgInventory.SelectedItem;
+    Inventory item = (Inventory)button.Tag;
 
-            inventoryService.DeleteItem(item.InventoryId);
+    MessageBoxResult result = MessageBox.Show(
+        $"Delete '{item.ItemName}'?",
+        "Delete Item",
+        MessageBoxButton.YesNo,
+        MessageBoxImage.Question);
 
-            MessageBox.Show("Item deleted successfully!");
+    if (result == MessageBoxResult.Yes)
+    {
+        inventoryService.DeleteItem(item.InventoryId);
 
-            LoadInventory();
-            ClearFields();
-        }
+        MessageBox.Show("Item deleted successfully!");
+
+        LoadInventory();
+    }
+}
 
         private void btnSearch_Click(object sender, RoutedEventArgs e)
         {
@@ -117,38 +96,25 @@ namespace Tap2PaySystem.Views
                 .ToList();
         }
 
-        private void dgInventory_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        private void dgInventory_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (dgInventory.SelectedItem == null)
-                return;
-
-            Inventory item = (Inventory)dgInventory.SelectedItem;
-
-            txtItemName.Text = item.ItemName;
-            txtPrice.Text = item.Price.ToString();
-            txtStock.Text = item.Stock.ToString();
-            dpExpiration.SelectedDate = item.ExpirationDate;
-            cbStatus.Text = item.Status;
+            
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e)
         {
-            ManagerDashboardView manager = new ManagerDashboardView();
-            manager.Show();
-            this.Close();
-        }
+            if (Session.CurrentUser.Role == "Manager")
+            {
+                ManagerDashboardView manager = new ManagerDashboardView();
+                manager.Show();
+            }
+            else if (Session.CurrentUser.Role == "Cashier")
+            {
+                CashierDashboardView cashier = new CashierDashboardView();
+                cashier.Show();
+            }
 
-        private void ClearFields()
-        {
-            txtItemName.Clear();
-            txtPrice.Clear();
-            txtStock.Clear();
-            txtSearch.Clear();
-
-            dpExpiration.SelectedDate = null;
-            cbStatus.SelectedIndex = -1;
-
-            dgInventory.SelectedItem = null;
+            Close();
         }
     }
 }

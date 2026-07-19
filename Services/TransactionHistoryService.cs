@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
-using Tap2PaySystem.Repositories;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
+using Tap2PayAdmin.Repositories;
+using Microsoft.Data.SqlClient;
 
-namespace Tap2PaySystem.Services
+namespace Tap2PayAdmin.Services
 {
     public class TransactionHistoryService
     {
-        private readonly TransactionHistoryRepository repository;
+        private readonly TransactionHistoryRepository repository =
+            new TransactionHistoryRepository();
 
-        public TransactionHistoryService()
+        public List<Transaction> GetAllTransactions()
         {
-            repository = new TransactionHistoryRepository();
-        }
-
-        public List<TransactionHistory> GetTransactions()
-        {
-            return repository.GetTransactions();
+            return repository.GetAllTransactions();
         }
     }
 }

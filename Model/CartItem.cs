@@ -4,13 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tap2PaySystem.Models
+namespace Tap2PayAdmin.Models
 {
     public class CartItem
     {
-        public int InventoryId { get; set; }
+        public int ProductId { get; set; }
 
         public string ItemName { get; set; }
+
+        public string Category { get; set; }
+
+        public string Size { get; set; }
 
         public decimal Price { get; set; }
 

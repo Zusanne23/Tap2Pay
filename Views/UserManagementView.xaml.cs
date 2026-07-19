@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class UserManagementView : Window
     {
@@ -55,15 +55,15 @@ namespace Tap2PaySystem.Views
         {
             if (dgUsers.SelectedItem == null)
             {
-                MessageBox.Show("Please select a user.");
+                MessageBox.Show("Please select a user first.");
                 return;
             }
 
             User selectedUser = (User)dgUsers.SelectedItem;
 
-            EditUserView edit = new EditUserView(selectedUser);
+            EditUserView editWindow = new EditUserView(selectedUser);
 
-            if (edit.ShowDialog() == true)
+            if (editWindow.ShowDialog() == true)
             {
                 LoadUsers();
             }
@@ -73,14 +73,14 @@ namespace Tap2PaySystem.Views
         {
             if (dgUsers.SelectedItem == null)
             {
-                MessageBox.Show("Please select a user.");
+                MessageBox.Show("Please select a user first.");
                 return;
             }
 
             User selectedUser = (User)dgUsers.SelectedItem;
 
             MessageBoxResult result = MessageBox.Show(
-                $"Delete {selectedUser.FullName}?",
+                $"Are you sure you want to delete {selectedUser.FullName}?",
                 "Confirm Delete",
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question);

@@ -11,36 +11,102 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
+using Tap2PayAdmin.Model;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class POSView : Window
     {
         private readonly InventoryService inventoryService = new InventoryService();
         private readonly TransactionService transactionService = new TransactionService();
+        private readonly ProductService productService = new ProductService();
+        private readonly UserService userService = new UserService();
+
+        private User currentCustomer;
 
         private List<CartItem> cart = new List<CartItem>();
         public POSView()
         {
             InitializeComponent();
 
-            LoadInventory();
+            LoadProducts();
         }
 
-        private void LoadInventory()
+        private void POSView_Loaded(object sender, RoutedEventArgs e)
         {
-            dgInventory.ItemsSource = inventoryService.GetAllItems();
+            txtRFID.Focus();
         }
-
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
 
-            Inventory item = (Inventory)button.DataContext;
+            Product product = (Product)button.Tag;
 
-            CartItem existing = cart.FirstOrDefault(x => x.InventoryId == item.InventoryId);
+            string size = rbWhole.IsChecked == true ? "Whole" : "Half";
+
+            decimal price = product.Price;
+
+            if (size == "Half")
+            {
+                price = product.Price / 2;
+            }
+
+            DependencyObject parent = button;
+
+            while (parent != null && !(parent is Border))
+            {
+                parent = VisualTreeHelper.GetParent(parent);
+            }
+
+            if (parent is Border border)
+            {
+                StackPanel panel = border.Child as StackPanel;
+
+                if (panel != null)
+                {
+                    foreach (UIElement child in panel.Children)
+                    {
+                        if (child is GroupBox groupBox)
+                        {
+                            StackPanel sp = groupBox.Content as StackPanel;
+
+                            if (sp != null)
+                            {
+                                foreach (UIElement item in sp.Children)
+                                {
+                                    if (item is RadioButton rb && rb.IsChecked == true)
+                                    {
+                                        size = rb.Content.ToString();
+
+                                        switch (size)
+                                        {
+                                            case "Half":
+                                                price = product.Price / 2;
+                                                break;
+
+                                            case "Whole":
+                                                price = product.Price;
+                                                break;
+
+                                            default:
+                                                price = product.Price;
+                                                break;
+                                        }
+
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            CartItem existing = cart.FirstOrDefault(x =>
+                x.ProductId == product.ProductId &&
+                x.Size == size);
 
             if (existing != null)
             {
@@ -50,9 +116,11 @@ namespace Tap2PaySystem.Views
             {
                 cart.Add(new CartItem
                 {
-                    InventoryId = item.InventoryId,
-                    ItemName = item.ItemName,
-                    Price = item.Price,
+                    ProductId = product.ProductId,
+                    ItemName = product.ProductName,
+                    Category = product.Category,
+                    Size = size,
+                    Price = price,
                     Quantity = 1
                 });
             }
@@ -75,7 +143,7 @@ namespace Tap2PaySystem.Views
 
             Transaction transaction = new Transaction
             {
-                UserId = 1,
+                UserId = Session.CurrentUser.UserId,
                 TotalAmount = cart.Sum(x => x.Amount),
                 PaymentMethod = paymentMethod,
                 TransactionDate = DateTime.Now,
@@ -89,18 +157,39 @@ namespace Tap2PaySystem.Views
                 TransactionItem transactionItem = new TransactionItem
                 {
                     TransactionId = transactionId,
-                    InventoryId = item.InventoryId,
+                    ProductId = item.ProductId,
                     Quantity = item.Quantity,
                     Price = item.Price,
                     Amount = item.Amount
                 };
 
+                if (rbRFID.IsChecked == true)
+                {
+                    lblRFID.Text = "🟢 Please Tap RFID Card...";
+                    txtRFID.Clear();
+                    txtRFID.Focus();
+
+                    return;
+                }
+
                 transactionService.AddTransactionItem(transactionItem);
 
-                inventoryService.DeductStock(item.InventoryId, item.Quantity);
             }
 
-            MessageBox.Show("Payment Successful!");
+            decimal total = cart.Sum(x => x.Amount);
+
+            string customerName = "Juan Dela Cruz";
+            string rfid = "2023-00145";
+            decimal remainingBalance = 240.00m;
+
+            PaymentSuccessView receipt = new PaymentSuccessView(
+                customerName,
+                rfid,
+                total,
+                remainingBalance,
+                cart.ToList());
+
+            receipt.ShowDialog();
 
             cart.Clear();
 
@@ -108,7 +197,10 @@ namespace Tap2PaySystem.Views
 
             ComputeTotal();
 
-            LoadInventory();
+            lblUserId.Text = "User ID :";
+            lblName.Text = "Name : Waiting for Customer";
+            lblBalance.Text = "Balance : ₱0.00";
+            lblRFID.Text = "🟡 Waiting for Payment...";
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
@@ -136,10 +228,10 @@ namespace Tap2PaySystem.Views
         {
             string keyword = txtSearch.Text.ToLower();
 
-            dgInventory.ItemsSource = inventoryService
-                .GetAllItems()
-                .Where(x => x.ItemName.ToLower().Contains(keyword))
-                .ToList();
+            icProducts.ItemsSource = productService
+                    .GetAllProducts()
+                    .Where(x => x.ProductName.ToLower().Contains(keyword))
+                    .ToList();
         }
 
         private void ComputeTotal()
@@ -147,6 +239,76 @@ namespace Tap2PaySystem.Views
             decimal total = cart.Sum(x => x.Amount);
 
             lblTotal.Text = $"TOTAL : ₱{total:N2}";
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            if (Session.CurrentUser.Role == "Manager")
+            {
+                ManagerDashboardView manager = new ManagerDashboardView();
+                manager.Show();
+            }
+            else if (Session.CurrentUser.Role == "Cashier")
+            {
+                CashierDashboardView cashier = new CashierDashboardView();
+                cashier.Show();
+            }
+
+            this.Close();
+        }
+
+        private void LoadProducts()
+        {
+            if (icProducts == null)
+            {
+                MessageBox.Show("icProducts is NULL");
+                return;
+            }
+
+            icProducts.ItemsSource = productService.GetAllProducts();
+        }
+
+        private void cbCategory_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IsLoaded)
+                return;
+
+            if (icProducts == null)
+                return;
+
+            if (cbCategory.SelectedItem == null)
+                return;
+
+            string category = ((ComboBoxItem)cbCategory.SelectedItem).Content.ToString();
+
+            var products = productService.GetAllProducts();
+
+            if (category != "All")
+            {
+                products = products
+                    .Where(x => x.Category == category)
+                    .ToList();
+            }
+
+            icProducts.ItemsSource = products;
+        }
+        private void txtRFID_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Enter)
+                return;
+
+            string rfid = txtRFID.Text.Trim();
+
+            txtRFID.Clear();
+
+            ProcessRFIDPayment(rfid);
+
+            txtRFID.Focus();
+        }
+
+        private void ProcessRFIDPayment(string rfid)
+        {
+            MessageBox.Show("RFID Detected: " + rfid);
         }
     }
 }

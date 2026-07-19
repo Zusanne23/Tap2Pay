@@ -12,35 +12,48 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class CashierDashboardView : Window
     {
         public CashierDashboardView()
         {
             InitializeComponent();
+
+            if (Session.CurrentUser != null)
+            {
+                lblCashier.Text = $"Logged in as: {Session.CurrentUser.FullName}";
+            }
         }
 
         private void btnPOS_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("POS Module");
+            POSView pos = new POSView();
+            pos.Show();
+            Close();
         }
 
         private void btnInventory_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Inventory Module");
+            InventoryView inventory = new InventoryView();
+            inventory.Show();
+            Close();
         }
 
         private void btnTransactionHistory_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Transaction History Module");
+            TransactionHistoryView history = new TransactionHistoryView();
+            history.Show();
+            Close();
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
+            Session.CurrentUser = null;
+
             LoginView login = new LoginView();
             login.Show();
-            this.Close();
+            Close();
         }
     }
 }

@@ -1,9 +1,9 @@
-﻿<Window x:Class="Tap2PaySystem.Views.UserManagementView"
+﻿<Window x:Class="Tap2PayAdmin.Views.UserManagementView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:vm="clr-namespace:Tap2PaySystem.ViewModel"
+        xmlns:vm="clr-namespace:Tap2PayAdmin.ViewModel"
         mc:Ignorable="d"
         Title="User Management"
         Height="650"
@@ -48,12 +48,15 @@
                     Content="Edit User"
                     Width="120"
                     Height="35"
-                    Margin="10,0"/>
+                    Margin="10,0"
+                    Click="btnEdit_Click"/>
 
             <Button x:Name="btnDelete"
                     Content="Delete User"
                     Width="120"
-                    Height="35"/>
+                    Height="35"
+                    Click="btnDelete_Click"/>
+
         </StackPanel>
         
         <DataGrid x:Name="dgUsers"

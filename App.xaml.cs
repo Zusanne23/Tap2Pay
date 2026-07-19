@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace Tap2PaySystem
+namespace Tap2PayAdmin
 {
     /// <summary>
     /// Interaction logic for App.xaml

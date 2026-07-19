@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tap2PaySystem.Models
+namespace Tap2PayAdmin.Models
 {
     public class Inventory
     {

@@ -11,10 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Tap2PaySystem.Views;
+using Tap2PayAdmin.Views;
 
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class ManagerDashboardView : Window
     {
@@ -49,6 +49,13 @@ namespace Tap2PaySystem.Views
 
         }
 
+        private void btnProducts_Click(object sender, RoutedEventArgs e)
+        {
+            ProductsView products = new ProductsView();
+            products.Show();
+            Close();
+        }
+
         private void btnTopUp_Click(object sender, RoutedEventArgs e)
         {
             TopUpView topUp = new TopUpView();
@@ -70,7 +77,9 @@ namespace Tap2PaySystem.Views
         }
         private void btnReports_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Reports Module");
+            ReportsView reports = new ReportsView();
+            reports.Show();
+            this.Close();
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)

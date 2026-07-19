@@ -11,10 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class RegistrationView : Window
     {
@@ -112,6 +112,13 @@ namespace Tap2PaySystem.Views
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
             }
+        }
+
+        private void btnBack_Click(object sender, RoutedEventArgs e)
+        {
+            ManagerDashboardView manager = new ManagerDashboardView();
+            manager.Show();
+            this.Close();
         }
     }
 }

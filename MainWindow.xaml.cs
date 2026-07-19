@@ -9,9 +9,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Tap2PaySystem.Data;
+using Tap2PayAdmin.Data;
 
-namespace Tap2PaySystem
+namespace Tap2PayAdmin
 {
     public partial class MainWindow : Window
     {

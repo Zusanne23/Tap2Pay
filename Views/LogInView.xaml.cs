@@ -1,8 +1,9 @@
 ﻿using System.Windows;
-using Tap2PaySystem.Models;
-using Tap2PaySystem.Services;
+using System.Windows.Input;
+using Tap2PayAdmin.Models;
+using Tap2PayAdmin.Services;
 
-namespace Tap2PaySystem.Views
+namespace Tap2PayAdmin.Views
 {
     public partial class LoginView : Window
     {
@@ -13,7 +14,7 @@ namespace Tap2PaySystem.Views
             InitializeComponent();
         }
 
-        private void btnLogin_Click(object sender, RoutedEventArgs e)
+    private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string username = txtUsername.Text;
             string password = txtPassword.Password;
@@ -22,30 +23,38 @@ namespace Tap2PaySystem.Views
 
             if (user != null)
             {
+                Session.CurrentUser = user;
+
                 if (user.Role == "Manager")
                 {
                     ManagerDashboardView dashboard = new ManagerDashboardView();
                     dashboard.Show();
-                    this.Close();
+                    Close();
                 }
                 else if (user.Role == "Cashier")
                 {
                     CashierDashboardView dashboard = new CashierDashboardView();
                     dashboard.Show();
-                    this.Close();
+                    Close();
                 }
-                else
-                {
-                    MessageBox.Show("Unknown user role.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Invalid Username or Password",
-                                "Login Failed",
-                                MessageBoxButton.OK,
-                                MessageBoxImage.Error);
             }
         }
+
+        private void txtPassword_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                btnLogin_Click(sender, new RoutedEventArgs());
+            }
+        }
+
+        private void txtUsername_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                txtPassword.Focus();
+            }
+        }
+
     }
 }

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
-using Tap2PaySystem.Data;
-using Tap2PaySystem.Models;
+using Tap2PayAdmin.Data;
+using Tap2PayAdmin.Models;
 
-namespace Tap2PaySystem.Repositories
+namespace Tap2PayAdmin.Repositories
 {
     public class TopUpRepository : ITopUpRepository
     {
