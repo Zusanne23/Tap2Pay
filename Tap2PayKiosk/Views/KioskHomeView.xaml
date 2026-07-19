@@ -1,0 +1,106 @@
+﻿<Window x:Class="Tap2PayKiosk.Views.KioskHomeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Tap2Pay Kiosk"
+        Height="700"
+        Width="1000"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#F5F7FA">
+
+    <Grid>
+
+        <Border Background="#1F2937"
+                Height="90"
+                VerticalAlignment="Top">
+
+            <TextBlock Text="Tap2Pay Self-Service Kiosk"
+                       Foreground="White"
+                       FontSize="34"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"/>
+        </Border>
+
+        <StackPanel VerticalAlignment="Center"
+                    HorizontalAlignment="Center">
+
+            <TextBlock Text="Welcome!"
+                       FontSize="36"
+                       FontWeight="Bold"
+                       HorizontalAlignment="Center"/>
+
+            <TextBlock Text="Please choose a service"
+                       FontSize="20"
+                       Foreground="Gray"
+                       Margin="0,10,0,40"
+                       HorizontalAlignment="Center"/>
+
+            <WrapPanel HorizontalAlignment="Center">
+
+                <!-- ORDER FOOD -->
+
+                <Button x:Name="btnOrderFood"
+                        Width="280"
+                        Height="220"
+                        Margin="20"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Background="#4CAF50"
+                        Foreground="White"
+                        Click="btnOrderFood_Click">
+
+                    <StackPanel>
+
+                        <TextBlock Text="🛒"
+                                   FontSize="70"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="ORDER FOOD"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,10,0,0"/>
+
+                    </StackPanel>
+
+                </Button>
+
+                <!-- CHECK BALANCE -->
+
+                <Button x:Name="btnCheckBalance"
+                        Width="280"
+                        Height="220"
+                        Margin="20"
+                        FontSize="28"
+                        FontWeight="Bold"
+                        Background="#2196F3"
+                        Foreground="White"
+                        Click="btnCheckBalance_Click">
+
+                    <StackPanel>
+
+                        <TextBlock Text="💳"
+                                   FontSize="70"
+                                   HorizontalAlignment="Center"/>
+
+                        <TextBlock Text="CHECK BALANCE"
+                                   HorizontalAlignment="Center"
+                                   Margin="0,10,0,0"/>
+
+                    </StackPanel>
+
+                </Button>
+
+            </WrapPanel>
+
+        </StackPanel>
+
+        <TextBlock Text="Tap your RFID card only when prompted."
+                   FontSize="16"
+                   Foreground="Gray"
+                   Margin="0,0,0,20"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Bottom"/>
+
+    </Grid>
+
+</Window>
