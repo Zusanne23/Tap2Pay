@@ -10,6 +10,7 @@ namespace Tap2PayAdmin.Views
     public partial class InventoryView : Window
     {
         private readonly InventoryService inventoryService = new InventoryService();
+        private readonly ActivityLogService logService = new ActivityLogService();
 
 
         public InventoryView()
@@ -44,10 +45,12 @@ namespace Tap2PayAdmin.Views
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             AddInventoryView add = new AddInventoryView();
+
             add.Owner = this;
             add.ShowDialog();
 
             LoadInventory();
+
         }
 
         private void btnEdit_Click(object sender, RoutedEventArgs e)
@@ -62,6 +65,14 @@ namespace Tap2PayAdmin.Views
             {
                 LoadInventory();
             }
+
+            logService.AddLog(
+                Session.CurrentUser.UserId,
+                Session.CurrentUser.FullName,   
+                Session.CurrentUser.Role,
+                "Inventory",
+                $"Added product: {item.ItemName}"
+            );
         }
 
         private void btnDelete_Click(object sender, RoutedEventArgs e)

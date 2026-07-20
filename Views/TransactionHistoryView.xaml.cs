@@ -25,7 +25,14 @@ namespace Tap2PayAdmin.Views
         {
             InitializeComponent();
 
-            LoadTransactions();
+            try
+            {
+                LoadTransactions();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
 
         private void LoadTransactions()

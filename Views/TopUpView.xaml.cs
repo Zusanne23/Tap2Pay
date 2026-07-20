@@ -21,6 +21,7 @@ namespace Tap2PayAdmin.Views
     public partial class TopUpView : Window
     {
         private readonly TopUpService service = new TopUpService();
+        private readonly ActivityLogService logService = new ActivityLogService();
 
         private User selectedUser;
 
@@ -73,6 +74,14 @@ namespace Tap2PayAdmin.Views
                 Amount = amount,
                 TopUpDate = DateTime.Now
             });
+
+            logService.AddLog(
+                Session.CurrentUser.UserId,
+                Session.CurrentUser.FullName,
+                Session.CurrentUser.Role,
+                "Top Up",
+                $"Added ₱{amount:N2} to {selectedUser.FullName}"
+            );
 
             MessageBox.Show("Top Up Successful!");
 

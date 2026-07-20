@@ -41,5 +41,20 @@ namespace Tap2PayAdmin.Services
         {
             return repository.GetUserByRFID(rfid);
         }
+
+        public int GetTotalUsers()
+        {
+            return repository.GetTotalUsers();
+        }
+
+        public int GetActiveUsers()
+        {
+            return repository.GetActiveUsers();
+        }
+
+        public int GetCashiers()
+        {
+            return repository.GetCashiers();
+        }
     }
 }

@@ -16,6 +16,11 @@ namespace Tap2PayAdmin.Repositories
         void DeleteUser(int userId);
 
         User GetUserByRFID(string rfid);
+
+        void AddTopUp(TopUp topUp);
+        int GetTotalUsers();
+        int GetActiveUsers();
+        int GetCashiers();
     }
 
 }

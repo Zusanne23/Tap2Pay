@@ -23,6 +23,7 @@ namespace Tap2PayAdmin.Views
         private readonly TransactionService transactionService = new TransactionService();
         private readonly ProductService productService = new ProductService();
         private readonly UserService userService = new UserService();
+        private readonly ActivityLogService logService = new ActivityLogService();
 
         private User currentCustomer;
 
@@ -129,6 +130,14 @@ namespace Tap2PayAdmin.Views
             dgCart.ItemsSource = cart;
 
             ComputeTotal();
+
+            logService.AddLog(
+                Session.CurrentUser.UserId,
+                Session.CurrentUser.FullName,
+                Session.CurrentUser.Role,
+                "Add Cart",
+                $"{product.ProductName} ({size}) x1"
+            );
         }
 
         private void btnConfirm_Click(object sender, RoutedEventArgs e)
@@ -176,6 +185,14 @@ namespace Tap2PayAdmin.Views
 
             }
 
+            logService.AddLog(
+                Session.CurrentUser.UserId,
+                Session.CurrentUser.FullName,
+                Session.CurrentUser.Role,
+                "POS Transaction",
+                $"Transaction #{transactionId} | Payment: {paymentMethod} | Total: ₱{cart.Sum(x => x.Amount):N2}"
+            );
+
             decimal total = cart.Sum(x => x.Amount);
 
             string customerName = "Juan Dela Cruz";
@@ -211,6 +228,14 @@ namespace Tap2PayAdmin.Views
                 MessageBoxButton.YesNo,
                 MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+
+                logService.AddLog(
+                    Session.CurrentUser.UserId,
+                    Session.CurrentUser.FullName,
+                    Session.CurrentUser.Role,
+                    "Cancel Order",
+                    "Cancelled current POS order."
+                );
                 cart.Clear();
 
                 dgCart.ItemsSource = null;
@@ -309,6 +334,13 @@ namespace Tap2PayAdmin.Views
         private void ProcessRFIDPayment(string rfid)
         {
             MessageBox.Show("RFID Detected: " + rfid);
+            logService.AddLog(
+                Session.CurrentUser.UserId,
+                Session.CurrentUser.FullName,
+                Session.CurrentUser.Role,
+                "RFID Payment",
+                $"Customer RFID: {rfid}"
+            );
         }
     }
 }

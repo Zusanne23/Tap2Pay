@@ -21,6 +21,7 @@ namespace Tap2PayAdmin.Views
         public ManagerDashboardView()
         {
             InitializeComponent();
+            txtDate.Text = DateTime.Now.ToString("MMMM dd, yyyy");
         }
 
         private void btnPOS_Click(object sender, RoutedEventArgs e)
@@ -80,6 +81,13 @@ namespace Tap2PayAdmin.Views
             ReportsView reports = new ReportsView();
             reports.Show();
             this.Close();
+        }
+
+        private void btnActivityLogs_Click(object sender, RoutedEventArgs e)
+        {
+            ActivityLogsView activityLogs = new ActivityLogsView();
+            activityLogs.Show();
+            Close();
         }
 
         private void btnLogout_Click(object sender, RoutedEventArgs e)

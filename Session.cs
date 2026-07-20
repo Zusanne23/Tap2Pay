@@ -10,5 +10,6 @@ namespace Tap2PayAdmin
     public static class Session
     {
         public static User CurrentUser { get; set; }
+
     }
 }

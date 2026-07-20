@@ -19,7 +19,7 @@ namespace Tap2PayAdmin.Services
 
         public void AddTopUp(TopUp topUp)
         {
-          
+            repository.AddTopUp(topUp);
         }
         public List<User> GetAllUsers()
         {

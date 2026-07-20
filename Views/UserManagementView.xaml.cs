@@ -20,6 +20,7 @@ namespace Tap2PayAdmin.Views
     public partial class UserManagementView : Window
     {
         private readonly UserService userService = new UserService();
+        private readonly ActivityLogService logService = new ActivityLogService();
 
         public UserManagementView()
         {
@@ -66,6 +67,14 @@ namespace Tap2PayAdmin.Views
             if (editWindow.ShowDialog() == true)
             {
                 LoadUsers();
+
+                logService.AddLog(
+                    Session.CurrentUser.UserId,
+                    Session.CurrentUser.FullName,
+                    Session.CurrentUser.Role,
+                    "User Update",
+                    $"Updated user: {selectedUser.FullName}"
+                );
             }
         }
 
@@ -90,6 +99,14 @@ namespace Tap2PayAdmin.Views
                 userService.DeleteUser(selectedUser.UserId);
 
                 MessageBox.Show("User deleted successfully.");
+
+                logService.AddLog(
+                    Session.CurrentUser.UserId,
+                    Session.CurrentUser.FullName,
+                    Session.CurrentUser.Role,
+                    "User Update",
+                    $"Updated user: {selectedUser.FullName}"
+                );
 
                 LoadUsers();
             }

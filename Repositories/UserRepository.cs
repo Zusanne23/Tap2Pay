@@ -209,5 +209,65 @@ namespace Tap2PayAdmin.Repositories
 
             return null;
         }
+
+        public int GetTotalUsers()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                SqlCommand cmd =
+                    new SqlCommand("SELECT COUNT(*) FROM Users", conn);
+
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public int GetActiveUsers()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                SqlCommand cmd =
+                    new SqlCommand("SELECT COUNT(*) FROM Users WHERE Status='Active'", conn);
+
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public int GetCashiers()
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                SqlCommand cmd =
+                    new SqlCommand("SELECT COUNT(*) FROM Users WHERE Role='Cashier'", conn);
+
+                return (int)cmd.ExecuteScalar();
+            }
+        }
+
+        public void AddTopUp(TopUp topUp)
+        {
+            using (SqlConnection conn = dbConnection.GetConnection())
+            {
+                conn.Open();
+
+                string query = @"INSERT INTO TopUp
+                        (UserId, Amount, TopUpDate)
+                        VALUES
+                        (@UserId, @Amount, @TopUpDate)";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@UserId", topUp.UserId);
+                cmd.Parameters.AddWithValue("@Amount", topUp.Amount);
+                cmd.Parameters.AddWithValue("@TopUpDate", topUp.TopUpDate);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }

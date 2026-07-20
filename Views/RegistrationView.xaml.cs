@@ -19,6 +19,7 @@ namespace Tap2PayAdmin.Views
     public partial class RegistrationView : Window
     {
         private readonly UserService userService = new UserService();
+        private readonly ActivityLogService logService = new ActivityLogService();
 
         private bool waitingForRFID = false;
 
@@ -31,6 +32,8 @@ namespace Tap2PayAdmin.Views
             txtRFID.IsReadOnly = true;
 
             LoadUsers();
+
+            LoadDashboard();
         }
         private void RegistrationView_Loaded(object sender, RoutedEventArgs e)
         {
@@ -58,6 +61,14 @@ namespace Tap2PayAdmin.Views
                 };
 
                 userService.AddUser(user);
+
+                logService.AddLog(
+                    Session.CurrentUser.UserId,
+                    Session.CurrentUser.FullName,
+                    Session.CurrentUser.Role,
+                    "User Registration",
+                    $"Registered new user: {user.FullName}"
+                );
 
                 txtRFID.IsReadOnly = true;
 
@@ -95,22 +106,13 @@ namespace Tap2PayAdmin.Views
 
         private void txtRFIDScanner_KeyDown(object sender, KeyEventArgs e)
         {
-            if (!waitingForRFID)
-                return;
-
             if (e.Key == Key.Enter)
             {
                 txtRFID.Text = txtRFIDScanner.Text.Trim();
 
                 txtRFIDScanner.Clear();
 
-                waitingForRFID = false;
-
-                MessageBox.Show(
-                    "RFID scanned successfully!",
-                    "Success",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
+                txtFullName.Focus();
             }
         }
 
@@ -119,6 +121,13 @@ namespace Tap2PayAdmin.Views
             ManagerDashboardView manager = new ManagerDashboardView();
             manager.Show();
             this.Close();
+        }
+
+        private void LoadDashboard()
+        {
+            txtTotalUsers.Text = userService.GetTotalUsers().ToString();
+            txtActiveUsers.Text = userService.GetActiveUsers().ToString();
+            txtCashiers.Text = userService.GetCashiers().ToString();
         }
     }
 }

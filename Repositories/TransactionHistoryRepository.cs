@@ -23,23 +23,23 @@ namespace Tap2PayAdmin.Repositories
                 conn.Open();
 
                 string query = @"
-                SELECT
-                    t.TransactionId,
-                    u.FullName AS CustomerName,
-                    u.RFIDUID,
-                    i.ItemName AS OrderPurchased,
-                    ti.Quantity,
-                    t.TotalAmount,
-                    t.TransactionDate,
-                    t.Status
-                FROM Transactions t
-                INNER JOIN Users u
-                    ON t.UserId = u.UserId
-                INNER JOIN TransactionItem ti
-                    ON t.TransactionId = ti.TransactionId
-                INNER JOIN Inventory i
-                    ON ti.InventoryId = i.InventoryId
-                ORDER BY t.TransactionDate DESC";
+                                SELECT
+                                    t.TransactionId,
+                                    u.FullName AS CustomerName,
+                                    u.RFIDUID,
+                                    p.ProductName AS OrderPurchased,
+                                    ti.Quantity,
+                                    t.TotalAmount,
+                                    t.TransactionDate,
+                                    t.Status
+                                FROM Transactions t
+                                INNER JOIN Users u
+                                    ON t.UserId = u.UserId
+                                INNER JOIN TransactionItem ti
+                                    ON t.TransactionId = ti.TransactionId
+                                INNER JOIN Products p
+                                    ON ti.ProductId = p.ProductId
+                                ORDER BY t.TransactionDate DESC";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
