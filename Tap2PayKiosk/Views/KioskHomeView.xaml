@@ -10,6 +10,7 @@
 
     <Grid>
 
+        <!-- HEADER -->
         <Border Background="#1F2937"
                 Height="90"
                 VerticalAlignment="Top">
@@ -20,8 +21,10 @@
                        FontWeight="Bold"
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"/>
+
         </Border>
 
+        <!-- MAIN -->
         <StackPanel VerticalAlignment="Center"
                     HorizontalAlignment="Center">
 
@@ -39,7 +42,6 @@
             <WrapPanel HorizontalAlignment="Center">
 
                 <!-- ORDER FOOD -->
-
                 <Button x:Name="btnOrderFood"
                         Width="280"
                         Height="220"
@@ -65,7 +67,6 @@
                 </Button>
 
                 <!-- CHECK BALANCE -->
-
                 <Button x:Name="btnCheckBalance"
                         Width="280"
                         Height="220"
@@ -94,6 +95,7 @@
 
         </StackPanel>
 
+        <!-- FOOTER -->
         <TextBlock Text="Tap your RFID card only when prompted."
                    FontSize="16"
                    Foreground="Gray"

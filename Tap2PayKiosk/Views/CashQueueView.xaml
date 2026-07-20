@@ -1,0 +1,68 @@
+﻿<Window x:Class="Tap2PayKiosk.Views.CashQueueView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Cash Payment"
+        Height="500"
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+
+        <StackPanel>
+
+            <TextBlock
+                Text="PAY AT CASHIER"
+                FontSize="28"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"/>
+
+            <TextBlock
+                Text="Please proceed to the cashier."
+                Margin="0,15"
+                FontSize="18"
+                HorizontalAlignment="Center"/>
+
+            <DataGrid
+                x:Name="dgOrder"
+                Height="220"
+                AutoGenerateColumns="False"
+                CanUserAddRows="False"
+                IsReadOnly="True">
+
+                <DataGrid.Columns>
+
+                    <DataGridTextColumn
+                        Header="Item"
+                        Binding="{Binding ItemName}"
+                        Width="*"/>
+
+                    <DataGridTextColumn
+                        Header="Qty"
+                        Binding="{Binding Quantity}"
+                        Width="70"/>
+
+                    <DataGridTextColumn
+                        Header="Amount"
+                        Binding="{Binding Amount,StringFormat=₱{0:N2}}"
+                        Width="120"/>
+
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+            <TextBlock
+                x:Name="lblTotal"
+                FontSize="22"
+                FontWeight="Bold"
+                Margin="0,15"/>
+
+            <Button
+                Content="DONE"
+                Height="40"
+                Click="Button_Click"/>
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>

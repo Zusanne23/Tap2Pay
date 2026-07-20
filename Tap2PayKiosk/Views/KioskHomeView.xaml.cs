@@ -23,11 +23,18 @@ namespace Tap2PayKiosk.Views
 
         private void btnOrderFood_Click(object sender, RoutedEventArgs e)
         {
-            OrderView order = new OrderView();
-            order.Show();
-            Close();
-        }
+            try
+            {
+                OrderView order = new OrderView();
+                order.Show();
 
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
+        }
         private void btnCheckBalance_Click(object sender, RoutedEventArgs e)
         {
             CheckBalanceView balance = new CheckBalanceView();

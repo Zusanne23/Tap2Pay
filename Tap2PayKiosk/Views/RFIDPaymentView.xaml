@@ -1,0 +1,43 @@
+﻿<Window x:Class="Tap2PayKiosk.Views.RFIDPaymentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="RFID Payment"
+        Height="450"
+        Width="500"
+        WindowStartupLocation="CenterScreen">
+
+    <Grid Margin="20">
+
+        <StackPanel VerticalAlignment="Center">
+
+            <TextBlock
+                Text="RFID PAYMENT"
+                FontSize="28"
+                FontWeight="Bold"
+                HorizontalAlignment="Center"/>
+
+            <TextBlock
+                Text="Tap your RFID Card"
+                FontSize="18"
+                Margin="0,25,0,10"
+                HorizontalAlignment="Center"/>
+
+            <TextBox
+                x:Name="txtRFID"
+                Height="40"
+                FontSize="18"
+                KeyDown="txtRFID_KeyDown"/>
+
+            <TextBlock
+                x:Name="lblStatus"
+                Text="Waiting for RFID..."
+                Margin="0,20,0,0"
+                FontSize="16"
+                Foreground="DarkOrange"
+                HorizontalAlignment="Center"/>
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>
